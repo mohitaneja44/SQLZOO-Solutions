@@ -94,7 +94,10 @@ MAX(x.team1) as team1,
 SUM(CASE WHEN y.teamid=x.team1 THEN 1 ELSE 0 END) as score1,
 MAX(x.team2) as team2,
 SUM(CASE WHEN y.teamid = x.team2 THEN 1 ELSE 0 END) as score2
-FROM game x JOIN goal y ON y.matchid = x.id
+FROM game x LEFT JOIN goal y ON y.matchid = x.id
 GROUP BY x.id, x.mdate
 ORDER BY x.mdate, y.matchid, x.team1, x.team2;
+
+#WE need to LEFT JOIN game with goal because it is possible that in a game NO goal is scored by any of the teams. 
+#Such entries won't be present in the goals table hence would not appear in normal JOIN.
 
