@@ -98,6 +98,6 @@ FROM game x LEFT JOIN goal y ON y.matchid = x.id
 GROUP BY x.id, x.mdate
 ORDER BY x.mdate, y.matchid, x.team1, x.team2;
 
-#WE need to LEFT JOIN game with goal because it is possible that in a game NO goal is scored by any of the teams. 
-#Such entries won't be present in the goals table hence would not appear in normal JOIN.
+'WE need to LEFT JOIN game with goal because it is possible that in a game NO goal is scored by any of the teams. 
+Such entries won't be present in the goals table hence would not appear in normal JOIN.'
 
