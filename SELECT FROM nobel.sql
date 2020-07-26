@@ -27,7 +27,7 @@ WHERE subject = 'Peace' AND yr >=2000;
 
 SELECT * 
 FROM nobel
-WHERE subject = 'Literature' AND yr BETWEEN 1980 AND 1989;'
+WHERE subject = 'Literature' AND yr BETWEEN 1980 AND 1989;
 
 6.
 
