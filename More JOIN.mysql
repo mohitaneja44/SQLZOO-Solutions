@@ -1,0 +1,69 @@
+1
+
+SELECT id, title
+FROM movie
+WHERE yr = 1962;
+
+2
+
+SELECT yr
+FROM movie
+WHERE title = 'Citizen Kane';
+
+3
+
+SELECT id, title, yr
+FROM movie
+WHERE title LIKE '%Star Trek%'
+ORDER BY yr;
+
+4
+
+SELECT id
+FROM actor
+WHERE name = 'Glenn Close';
+
+5
+
+SELECT id
+FROM movie
+WHERE title = 'Casablanca';
+
+6
+
+SELECT x.name
+FROM actor x
+JOIN casting y ON y.actorid = x.id
+WHERE y.movieid = 11768;
+
+7
+
+SELECT x.name
+FROM actor x
+JOIN casting y ON y.actorid = x.id
+JOIN movie z ON z.id = y.movieid
+WHERE z.title = 'Alien';
+
+8
+
+SELECT z.title
+FROM actor x
+JOIN casting y ON y.actorid = x.id
+JOIN movie z ON z.id = y.movieid
+WHERE x.name = 'Harrison Ford';
+
+9
+
+SELECT z.title
+FROM actor x
+JOIN casting y ON y.actorid = x.id
+JOIN movie z ON z.id = y.movieid
+WHERE x.name = 'Harrison Ford'  AND y.ord !=1;
+
+10
+
+SELECT x.title, y.name
+FROM movie x
+JOIN casting z ON z.movieid = x.id
+JOIN actor y ON y.id = z.actorid
+WHERE x.yr = 1962 AND z.ord = 1;
