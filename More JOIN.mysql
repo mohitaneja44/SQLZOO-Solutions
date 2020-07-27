@@ -67,3 +67,66 @@ FROM movie x
 JOIN casting z ON z.movieid = x.id
 JOIN actor y ON y.id = z.actorid
 WHERE x.yr = 1962 AND z.ord = 1;
+
+11
+
+SELECT x.yr, COUNT(x.title)
+FROM movie x
+JOIN casting z ON z.movieid = x.id
+JOIN actor y ON y.id = z.actorid
+WHERE y.name = 'Rock Hudson'
+GROUP BY y.name, x.yr
+HAVING COUNT(x.title) > 2;
+
+12
+
+SELECT DISTINCT t1.title, t2.name
+FROM 
+(SELECT x.id, x.title
+FROM movie x
+JOIN casting z ON z.movieid = x.id
+JOIN actor y ON y.id = z.actorid
+WHERE y.name = 'Julie Andrews') as t1
+JOIN casting t3 ON t3.movieid = t1.id
+JOIN actor t2 ON t2.id = t3.actorid
+WHERE t3.ord = 1;
+
+13
+
+
+SELECT y.name
+FROM movie x
+JOIN casting z ON z.movieid = x.id
+JOIN actor y ON y.id = z.actorid
+WHERE z.ord = 1
+GROUP BY y.name
+HAVING COUNT(x.title) >= 15
+ORDER BY y.name ASC; 
+
+14
+
+
+SELECT x.title, COUNT(y.name)
+FROM movie x
+JOIN casting z ON z.movieid = x.id
+JOIN actor y ON y.id = z.actorid
+WHERE x.yr = 1978
+GROUP BY x.title
+ORDER BY COUNT(y.name) DESC, x.title;
+
+15
+
+SELECT t2.name
+FROM movie t1
+JOIN casting t3 ON t3.movieid = t1.id
+JOIN actor t2 ON t2.id = t3.actorid
+WHERE t1.id IN
+    (SELECT x.id
+    FROM movie x 
+    JOIN casting z ON z.movieid = x.id
+    JOIN actor y ON y.id = z.actorid
+    WHERE y.name = 'Art Garfunkel') 
+AND t2.name!= 'Art Garfunkel';
+
+
+
