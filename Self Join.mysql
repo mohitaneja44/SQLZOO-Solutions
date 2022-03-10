@@ -46,3 +46,47 @@ FROM route a
 JOIN route b ON (a.company = b.company AND a.num = b.num)
 WHERE a.stop = 115 AND b.stop = 137;
 
+
+8
+-- Give a list of the services which connect the stops 'Craiglockhart' and 'Tollcross'
+
+select DISTINCT a.company, a.num 
+from route a 
+join route b on (a.num = b.num and a.company = b.company) 
+join stops stopa on (stopa.id = a.stop) 
+join stops stopb on (stopb.id = b.stop) where stopa.name = 'Craiglockhart' and stopb.name = 'Tollcross';
+
+
+
+9
+-- Give a distinct list of the stops which may be reached from 'Craiglockhart' by taking one bus, including 'Craiglockhart' itself, offered by the LRT company. 
+-- Include the company and bus no. of the relevant services.
+
+select DISTINCT stopb.name, a.company, a.num 
+from route a 
+join route b on (a.num = b.num and a.company = b.company) 
+join stops stopa on (stopa.id = a.stop) 
+join stops stopb on (stopb.id = b.stop) 
+where stopa.name = 'Craiglockhart' and a.company = 'LRT'
+
+10
+-- Find the routes involving two buses that can go from Craiglockhart to Lochend.
+-- Show the bus no. and company for the first bus, the name of the stop for the transfer,
+-- and the bus no. and company for the second bus.
+
+select travel1.bus1_num as num, travel1.bus1_company as company, travel1.first_destination as name, travel2.bus2_num as num, travel2.bus2_company as company
+FROM
+(
+(select a.num as bus1_num, a.company as bus1_company, stopb.name as first_destination, stopa.name as source
+from route a join route b on (a.num = b.num and a.company = b.company) join stops stopa on (stopa.id = a.stop) join stops stopb on (stopb.id = b.stop))) travel1
+join 
+(select 
+stopa.name as stopa_name, 
+a.num as bus2_num, 
+a.company as bus2_company,
+stopb.name as final_destination
+from route a 
+join route b on (a.num = b.num and a.company = b.company) join stops stopa on (stopa.id = a.stop) 
+join stops stopb on (stopb.id = b.stop) 
+) as travel2 on travel2.stopa_name = travel1.first_destination and travel1.source = 'Craiglockhart' and travel2.final_destination = 'Lochend' order by travel1.bus1_num, travel1.first_destination, travel2.bus2_num;
+
